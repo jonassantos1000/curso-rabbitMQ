@@ -1,18 +1,16 @@
-package br.com.alurafood.pedidos.amqp;
+package br.com.alurafood.avaliacao.avaliacao.amqp;
 
+import br.com.alurafood.avaliacao.avaliacao.dto.PagamentoDto;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import br.com.alurafood.pedidos.dto.PagamentoDto;
-
 @Component
-public class PagamentoListener {
-
-	@RabbitListener(queues = "pagamentos.detalhes-pedido")
-	public void recebeMensagem(@Payload PagamentoDto pagamento) {
+public class AvaliacaoListener {
+    @RabbitListener(queues = "pagamentos.detalhes-avaliacao")
+    public void recebeMensagem(@Payload PagamentoDto pagamento) {
         String mensagem = """
-                Pagamento pedido: %s 
+                Necessário criar registro de avaliação para o pedido: %s 
                 Id do pagamento: %s
                 Nome do cliente: %s
                 Valor R$: %s
@@ -24,5 +22,5 @@ public class PagamentoListener {
                 pagamento.getStatus());
 
         System.out.println(mensagem);
-	}
+    }
 }
